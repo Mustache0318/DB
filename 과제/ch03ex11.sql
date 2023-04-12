@@ -28,21 +28,21 @@ FOREIGN KEY(theaterid, hallid) REFERENCES hall(theaterid,hallid) on DELETE CASCA
 PRIMARY KEY(theaterid, hallid, custid));
 
 INSERT ALL
-INTO theater(theaterid, theatername, location) VALUES(1, '·Ôµ¥', 'Àá½Ç')
-INTO theater(theaterid, theatername, location) VALUES(2, '¸Ş°¡', '°­³²')
-INTO theater(theaterid, theatername, location) VALUES(3, '´ëÇÑ', 'Àá½Ç')
+INTO theater(theaterid, theatername, location) VALUES(1, 'ë¡¯ë°', 'ì ì‹¤')
+INTO theater(theaterid, theatername, location) VALUES(2, 'ë©”ê°€', 'ê°•ë‚¨')
+INTO theater(theaterid, theatername, location) VALUES(3, 'ëŒ€í•œ', 'ì ì‹¤')
 SELECT 1 FROM DUAL;
 
 INSERT ALL
-INTO hall(theaterid, hallid, movie, price, sit) VALUES(1, 1, '¾î·Á¿î ¿µÈ­', 15000, 48)
-INTO hall(theaterid, hallid, movie, price, sit) VALUES(3, 1, '¸ÚÁø ¿µÈ­', 7500, 120)
-INTO hall(theaterid, hallid, movie, price, sit) VALUES(3, 2, 'Àç¹Õ´Â ¿µÈ­', 8000, 110)
+INTO hall(theaterid, hallid, movie, price, sit) VALUES(1, 1, 'ì–´ë ¤ìš´ ì˜í™”', 15000, 48)
+INTO hall(theaterid, hallid, movie, price, sit) VALUES(3, 1, 'ë©‹ì§„ ì˜í™”', 7500, 120)
+INTO hall(theaterid, hallid, movie, price, sit) VALUES(3, 2, 'ì¬ë°ŒëŠ” ì˜í™”', 8000, 110)
 SELECT 1 FROM DUAL;
 
 INSERT ALL
-INTO mcustomer(custid, custname, address) VALUES(3, 'È«±æµ¿', '°­³²')
-INTO mcustomer(custid, custname, address) VALUES(4, '±èÃ¶¼ö', 'Àá½Ç')
-INTO mcustomer(custid, custname, address) VALUES(9, '¹Ú¿µÈñ', '°­³²')
+INTO mcustomer(custid, custname, address) VALUES(3, 'í™ê¸¸ë™', 'ê°•ë‚¨')
+INTO mcustomer(custid, custname, address) VALUES(4, 'ê¹€ì² ìˆ˜', 'ì ì‹¤')
+INTO mcustomer(custid, custname, address) VALUES(9, 'ë°•ì˜í¬', 'ê°•ë‚¨')
 SELECT 1 FROM DUAL;
 
 INSERT ALL
@@ -57,12 +57,12 @@ SELECT theatername, location FROM theater;
 /*1-2*/
 SELECT theatername
 FROM theater
-WHERE location='Àá½Ç';
+WHERE location='ì ì‹¤';
 
 /*1-3*/
 SELECT custname
 FROM mcustomer
-WHERE address='Àá½Ç'
+WHERE address='ì ì‹¤'
 ORDER BY custname ASC;
 
 /*1-4*/
@@ -93,21 +93,21 @@ WHERE reservationdate='2020-09-01';
 SELECT movie
 FROM hall
 JOIN theater ON theater.theaterid=hall.theaterid
-WHERE theatername='´ëÇÑ';
+WHERE theatername='ëŒ€í•œ';
 
 /*3-2*/
 SELECT custname
 FROM mcustomer
 JOIN reservation ON reservation.custid=mcustomer.custid
 JOIN theater ON theater.theaterid=reservation.theaterid
-WHERE theatername='´ëÇÑ';
+WHERE theatername='ëŒ€í•œ';
 
 /*3-3*/
-SELECT SUM(price) as ÀüÃ¼¼öÀÔ
+SELECT SUM(price) as ì „ì²´ìˆ˜ì…
 FROM hall
 JOIN reservation ON reservation.hallid=hall.hallid AND reservation.theaterid=hall.theaterid
 JOIN theater ON hall.theaterid=theater.theaterid
-WHERE theatername='´ëÇÑ';
+WHERE theatername='ëŒ€í•œ';
 
 /*4-1*/
 SELECT theatername, COUNT(*)
@@ -119,7 +119,7 @@ GROUP BY theatername;
 SELECT *
 FROM hall
 JOIN theater ON theater.theaterid=hall.theaterid
-WHERE theater.location='Àá½Ç';
+WHERE theater.location='ì ì‹¤';
 
 /*4-3*/
 SELECT theatername, COUNT(custid)
@@ -128,8 +128,8 @@ LEFT JOIN reservation ON theater.theaterid=reservation.theaterid
 GROUP BY theatername;
 
 /*4-4*/
-SELECT movie as ¿µÈ­, COUNT(custid) as °ü°´¼ö
+SELECT movie as ì˜í™”, COUNT(custid) as ê´€ê°ìˆ˜
 FROM hall
 LEFT JOIN reservation ON hall.theaterid=reservation.theaterid AND hall.hallid=reservation.hallid
 GROUP BY movie
-ORDER BY '°ü°´¼ö';
+ORDER BY 'ê´€ê°ìˆ˜';
