@@ -122,14 +122,23 @@ JOIN theater ON theater.theaterid=hall.theaterid
 WHERE theater.location='잠실';
 
 /*4-3*/
-SELECT theatername, COUNT(custid)
-FROM theater
-LEFT JOIN reservation ON theater.theaterid=reservation.theaterid
-GROUP BY theatername;
+SELECT AVG(관객수) as 평균관객수
+FROM(SELECT theaterid, COUNT(*) as 관객수
+FROM reservation
+WHERE reservationdate = '2020-09-01'
+GROUP BY theaterid, hallid);
 
 /*4-4*/
-SELECT movie as 영화, COUNT(custid) as 관객수
-FROM hall
-LEFT JOIN reservation ON hall.theaterid=reservation.theaterid AND hall.hallid=reservation.hallid
-GROUP BY movie
-ORDER BY '관객수';
+SELECT movie, COUNT(*) as 고객수
+FROM reservation
+JOIN hall ON reservation.theaterid = hall.theaterid AND reservation.hallid = hall.hallid
+WHERE reservation.reservationdate = '2020-09-01'
+GROUP BY hall.movie
+HAVING COUNT(*) = (
+    SELECT COUNT(*) as 고객수
+    FROM reservation
+    WHERE reservationdate = '2020-09-01'
+    GROUP BY theaterid, hallid
+    ORDER BY 고객수 DESC
+    FETCH FIRST 1 ROW ONLY
+);
