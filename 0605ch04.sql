@@ -1,17 +1,31 @@
 CREATE VIEW VW_customer
 as SELECT *
     FROM customer
-    WHERE address like '%´ëÇÑ¹Î±¹%';
+    WHERE address like '%ëŒ€í•œë¯¼êµ­%';
     
 SELECT *
 FROM vw_customer;
 
-/*ºä ¼öÁ¤, ÁÖ¼Ò°¡ ´ëÇÑ¹Î±¹ÀÎ °í°´ÀÇ Á¤º¸¸¦ ¿µ±¹À¸·Î ¼öÁ¤*/
+CREATE VIEW vw_Orders (orderid, custid, name, bookid, bookname, saleprice, orderdate)
+as SELECT od.orderid, od.custid, cs.name, od.bookid, bk.bookname, od.saleprice, od.orderdate
+    FROM Orders od, Customer cs, Book bk
+    WHERE od.custid=cs.custid AND od.bookid=bk.bookid;
+    
+SELECT orderid, bookname, saleprice
+FROM vw_Orders
+WHERE name='ê¹€ì—°ì•„';
+
+/*ë·° ìˆ˜ì •, ì£¼ì†Œê°€ ëŒ€í•œë¯¼êµ­ì¸ ê³ ê°ì˜ ì •ë³´ë¥¼ ì˜êµ­ìœ¼ë¡œ ìˆ˜ì •*/
 CREATE OR REPLACE VIEW VW_customer(custid, name, address)
 as SELECT custid, name, address
     FROM customer
-    WHERE address like '%¿µ±¹%';
+    WHERE address like '%ì˜êµ­%';
     
+SELECT *
+FROM vw_customer;
+    
+DROP VIEW vw_Customer;
+
 SELECT *
 FROM vw_customer;
 
